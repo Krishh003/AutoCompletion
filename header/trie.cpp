@@ -50,3 +50,42 @@ void displayTrie(TrieNode* root, std::string prefix) {
         }
     }
 }
+
+void suggestWord(TrieNode* root, std::string prefix)
+{
+    if (root->isWordEnd)
+    {
+        std::cout << prefix << std::endl;
+    }
+    for (int i = 0; i < ALPHABET_SIZE; i++)
+    {
+        if(root->childNode[i]) 
+        {
+            char child = 'a' + i;
+            suggestWord(root->childNode[i], prefix + child);
+        }
+    }
+}
+
+int printAutoComplete(TrieNode* root, std::string query)
+{
+    TrieNode* currentNode = root;
+    for(auto c : query)
+    {
+        int index = c - 'a';
+        if(!currentNode->childNode[index])
+        {
+            return 0;
+        }
+        currentNode = currentNode->childNode[index];
+    }
+
+    if(currentNode->isWordEnd == true)
+    {
+        std::cout << query << std::endl;
+        return -1;
+    }
+
+    suggestWord(currentNode, query);
+    return 1;
+}

@@ -1,22 +1,25 @@
 #include "header/trie.h"
 #include<iostream>
 #include<fstream>
+using namespace std;
 
 int main(){
     //creating the root of the trie
-    TrieNode*root=createTrieNode('#');
+    TrieNode* root = createTrieNode('#');
 
     //reading from the file and inputing it the to trie
-    std::ifstream reader("myfile.txt");
-    std::string word="";
-    while(reader >> word){
+    ifstream reader("myfile.txt");
+    string word="";
+    while(reader >> word)
+    {
         insertTrieNode(root,word);//insert into trie
     }
     reader.close();
 
     //display all the words in the trie
-    std::string ans=""; //passing empty string to display function.
-    displayTrie(root,ans);
+    string ans=""; //passing empty string to display function.
+    
+    printAutoComplete(root, "un");
     
     return 0;
 }

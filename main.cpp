@@ -28,6 +28,22 @@ TrieNode* createTrieNode(char key)
     return newnode;
 }
 
+void insertTrieNode(TrieNode** root, string word)
+{
+    TrieNode* currentNode = *root;
+
+    for(auto key : word) //This is equivalent to for k in word where k is an auto data type (in our case auto to char)
+    {
+        if(currentNode->childNode[key-'a'] == NULL)
+        {
+            TrieNode* newnode = createTrieNode(key);
+            currentNode->childNode[key-'a'] = newnode;
+        }
+        currentNode = currentNode->childNode[key-'a'];
+    }
+    currentNode->isWordEnd = true;
+}
+
 int main(){
     cout << "Hello World!\n";
     return 0;

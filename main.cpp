@@ -28,12 +28,15 @@ TrieNode* createTrieNode(char key)
     return newnode;
 }
 
-void insertTrieNode(TrieNode** root, string word)
+void insertTrieNode(TrieNode* root, string word)
 {
-    TrieNode* currentNode = *root;
-
-    for(auto key : word) //This is equivalent to for k in word where k is an auto data type (in our case auto to char)
+    if(root==NULL)
     {
+        root = createTrieNode('#');
+    }
+    TrieNode* currentNode = root;
+    for(auto key : word) //This is equivalent to for key in word where key is an auto data type (in our case auto to char)
+    { 
         if(currentNode->childNode[key-'a'] == NULL)
         {
             TrieNode* newnode = createTrieNode(key);

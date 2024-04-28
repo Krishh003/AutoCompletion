@@ -1,6 +1,7 @@
 #include "header/trie.h"
 #include<iostream>
 #include<fstream>
+#include<bits/stdc++.h>
 using namespace std;
 
 int main(){
@@ -18,8 +19,15 @@ int main(){
 
     //display all the words in the trie
     string ans=""; //passing empty string to display function.
-    
-    printAutoComplete(root, "un");
+    string query;
+    cout << "Enter query : ";
+    cin >> query;
+    cout << endl;
+
+    transform(query.begin(),query.end(),query.begin(), ::tolower);
+
+    printAutoComplete(root, query);
+    displayQueryTrie(root,query,ans);
     
     return 0;
 }

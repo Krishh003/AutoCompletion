@@ -26,29 +26,50 @@ void insertTrieNode(TrieNode* root, std::string word)
 
     for(auto key : word) //This is equivalent to for k in word where k is an auto data type (in our case auto to char)
     {
-        if(currentNode->childNode[key-'a'] == NULL) //if the child is not NULL
+        if(currentNode->childNode[key-'a'] == NULL) //if the child is NULL
         {
             TrieNode* newnode = createTrieNode(key);
             currentNode->childNode[key-'a'] = newnode;
         }
         currentNode = currentNode->childNode[key-'a'];
+        currentNode->freq += 1;
     }
     currentNode->isWordEnd = true;
 }
 
 
-void displayTrie(TrieNode* root, std::string prefix) {
-    if (root == nullptr) {
+void displayTrie(TrieNode* root, std::string prefix) 
+{
+    if (root == nullptr) 
+    {
         return;
     }
-    if (root->isWordEnd) {
+    if (root->isWordEnd) 
+    {
         std::cout << prefix << std::endl;
     }
-    for (int i = 0; i < 26; ++i) {
-        if (root->childNode[i] != nullptr) {
+    for (int i = 0; i < 26; ++i) 
+    {
+        if (root->childNode[i] != nullptr) 
+        {
             displayTrie(root->childNode[i], prefix + char('a' + i));
         }
     }
+}
+
+void displayQueryTrie(TrieNode* root, std::string query, std::string prefix)
+{
+    TrieNode* currentNode = root;
+    for(auto c : query)
+    {
+        int index = c - 'a';
+        if(!currentNode->childNode[index])
+        {
+            return;
+        }
+        currentNode = currentNode->childNode[index];
+    }
+    displayTrie(currentNode, query + prefix);
 }
 
 void suggestWord(TrieNode* root, std::string prefix)

@@ -37,6 +37,61 @@ void insertTrieNode(TrieNode* root, std::string word)
     currentNode->isWordEnd = true;
 }
 
+void deleteTrieNode(TrieNode *root, std::string word)
+{
+    if(word.length() == 0)
+    {
+        root->isWordEnd = false;
+        return;
+    }
+    int index = word[0]-'a';
+
+    TrieNode* child;
+    if(root->childNode[index] != NULL)
+    {
+        child = root->childNode[index];
+    }
+    else
+    {
+        std::cout << "No such word exists" << std::endl;
+        return;
+    }
+    deleteTrieNode(child,word.substr(1));
+}
+
+void searchTrieNode(TrieNode* root, std::string word)
+{
+    bool ans = searchUtil(root,word);
+    if(ans)
+    {
+        std::cout << "Word exixts in the Trie" << std::endl;
+    }
+    else
+    {
+        std::cout << "Word does not exists" << std::endl;
+    }
+}
+
+bool searchUtil(TrieNode* root,std::string word)
+{
+    if(word.length() == 0)
+    {
+        return root->isWordEnd;
+    }
+    int index = word[0]-'a';
+
+    TrieNode* child;
+    if(root->childNode[index] != NULL)
+    {
+        child = root->childNode[index];
+
+    }
+    else
+    {
+        return false;
+    }
+    return searchUtil(child,word.substr(1));
+}
 
 void displayTrie(TrieNode* root, std::string prefix) 
 {

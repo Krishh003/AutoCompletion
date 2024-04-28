@@ -13,6 +13,7 @@ struct TrieNode{
 
 TrieNode* createTrieNode(char key);
 void insertTrieNode(TrieNode*root, std::string word);
+void deleteTrieNode(TrieNode*root,std::string word);
 void displayTrie(TrieNode* root, std::string prefix);
 void suggestWord(TrieNode* root, std::string prefix);
 int printAutoComplete(TrieNode* root, std::string query);

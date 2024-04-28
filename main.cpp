@@ -47,7 +47,14 @@ void insertTrieNode(TrieNode* root, string word)
     currentNode->isWordEnd = true;
 }
 
+<<<<<<< Updated upstream
 int main(){
     cout << "Hello World!\n";
+=======
+    transform(query.begin(),query.end(),query.begin(), ::tolower);
+
+    deleteTrieNode(root,query);
+    
+>>>>>>> Stashed changes
     return 0;
 }

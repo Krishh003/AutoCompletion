@@ -18,5 +18,8 @@ void displayTrie(TrieNode* root, std::string prefix);
 void suggestWord(TrieNode* root, std::string prefix);
 int printAutoComplete(TrieNode* root, std::string query);
 void displayQueryTrie(TrieNode* root, std::string query, std::string prefix);
+void deleteTrieNode(TrieNode* root, std::string word);
+void searchTrieNode(TrieNode* root, std::string word);
+bool searchUtil(TrieNode* root,std::string word);
 
 #endif

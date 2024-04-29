@@ -2,7 +2,7 @@ Please change the status of your work if it is done
 
 please also describe your commits thank you
 
-saumya randi hai
+teri maa randi hai
 
 Remaining Work:-
 

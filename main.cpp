@@ -1,33 +1,30 @@
-#include "header/trie.h"
-#include<iostream>
-#include<fstream>
-#include<bits/stdc++.h>
+#include "headers/reader.h"
+#include "headers/trie.h"
+#include <iostream>
+#include <unordered_map>
 using namespace std;
 
-int main(){
-    //creating the root of the trie
-    TrieNode* root = createTrieNode('#');
+int main() {
 
-    //reading from the file and inputing it the to trie
-    ifstream reader("myfile.txt");
-    string word="";
-    while(reader >> word)
-    {
-        insertTrieNode(root,word);//insert into trie
-    }
-    reader.close();
+  // creating the root of the trie
+  TrieNode *root = createTrieNode('#');
+  unordered_map<string, string> hmap;
+  bool success = setup_trie(root);
+  bool check = setup_emoji(hmap);
+  if (success && check) {
 
-    //display all the words in the trie
-    string ans=""; //passing empty string to display function.
     string query;
     cout << "Enter query : ";
     cin >> query;
     cout << endl;
 
-    transform(query.begin(),query.end(),query.begin(), ::tolower);
+    printAutoComplete(root, query,hmap);
+    // display the query output
+    string ans = "";
+    displayQueryTrie(root, query, ans);
+  } else {
+    cout << "internal error! cannot proceed\nexiting program...";
+  }
 
-    printAutoComplete(root, query);
-    displayQueryTrie(root,query,ans);
-    
-    return 0;
+  return 0;
 }

@@ -14,3 +14,8 @@ printAutoComplete :- this takes the current pointer from the root node to the ne
 
 AutoCorrect - Corrects a misspelled word that has been entered in the query space (Not Implemented)
 
+setup_trie : reads the text corpus and pushes words to the trie
+
+setup_emoji : reads from the emoji.txt file and then puts every emoji into a hashmap
+
+get_emoji : search for the word in the hashmap to find the emoji for it

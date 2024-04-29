@@ -16,4 +16,5 @@ the whole project is divided into various files and folders:
     2. "main.cpp" is our main source code file
     3. "makefile" is used to run the code:
         a. type "make" in the terminal to compile
-        b. type "./main" in the terminal to run
+        b. if "make" doesn't work try: "mingw32-make"
+        c. type "./main" in the terminal to run

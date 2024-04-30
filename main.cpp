@@ -20,8 +20,8 @@ int main() {
 
     printAutoComplete(root, query,hmap);
     // display the query output
-    string ans = "";
-    displayQueryTrie(root, query, ans);
+    // string ans = "";
+    // displayQueryTrie(root, query, ans);
   } else {
     cout << "internal error! cannot proceed\nexiting program...";
   }

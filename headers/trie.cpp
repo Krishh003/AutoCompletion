@@ -1,6 +1,8 @@
 #include "trie.h"
+#include "reader.h"
 #include<iostream>
-
+#include<algorithm>
+#include <unordered_map>
 
 TrieNode* createTrieNode(char key)
 {
@@ -64,7 +66,7 @@ void searchTrieNode(TrieNode* root, std::string word)
     bool ans = searchUtil(root,word);
     if(ans)
     {
-        std::cout << "Word exixts in the Trie" << std::endl;
+        std::cout << "Word exists in the Trie" << std::endl;
     }
     else
     {
@@ -127,24 +129,33 @@ void displayQueryTrie(TrieNode* root, std::string query, std::string prefix)
     displayTrie(currentNode, query + prefix);
 }
 
-void suggestWord(TrieNode* root, std::string prefix)
+void suggestWord(TrieNode* root, std::string prefix,std::unordered_map<std::string,std::string>&hmap)
 {
     if (root->isWordEnd)
     {
-        std::cout << prefix << std::endl;
+        std::cout << prefix;
+        std::string emoji=get_emoji(prefix,hmap);
+        if(emoji!=""){
+            std::cout<<emoji<<std::endl;
+        }
+        else{
+            std::cout<<std::endl;
+        }
     }
     for (int i = 0; i < ALPHABET_SIZE; i++)
     {
         if(root->childNode[i]) 
         {
             char child = 'a' + i;
-            suggestWord(root->childNode[i], prefix + child);
+            suggestWord(root->childNode[i], prefix + child,hmap);
         }
     }
 }
 
-int printAutoComplete(TrieNode* root, std::string query)
+int printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::string,std::string>&hmap)
 {
+    transform(query.begin(), query.end(), query.begin(), ::tolower);
+
     TrieNode* currentNode = root;
     for(auto c : query)
     {
@@ -162,6 +173,6 @@ int printAutoComplete(TrieNode* root, std::string query)
         return -1;
     }
 
-    suggestWord(currentNode, query);
+    suggestWord(currentNode, query,hmap);
     return 1;
 }

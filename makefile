@@ -1,2 +1,2 @@
-main: main.cpp header/trie.cpp
-	g++ -o main main.cpp header/trie.cpp
+main: main.cpp headers/trie.cpp headers/reader.cpp
+	g++ -o main $^

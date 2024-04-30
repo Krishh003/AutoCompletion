@@ -1,29 +1,33 @@
 #include "headers/reader.h"
 #include "headers/trie.h"
-#include<Windows.h>
+#include <Windows.h>
 #include <iostream>
 #include <unordered_map>
 using namespace std;
 
-int main() {
+int main()
+{
   SetConsoleOutputCP(CP_UTF8);
   // creating the root of the trie
   TrieNode *root = createTrieNode('#');
   unordered_map<string, string> hmap;
   bool success = setup_trie(root);
   bool check = setup_emoji(hmap);
-  if (success && check) {
+  if (success && check)
+  {
 
     string query;
     cout << "Enter query : ";
     cin >> query;
     cout << endl;
 
-    printAutoComplete(root, query,hmap);
+    printAutoComplete(root, query, hmap);
     // display the query output
     // string ans = "";
     // displayQueryTrie(root, query, ans);
-  } else {
+  }
+  else
+  {
     cout << "internal error! cannot proceed\nexiting program...";
   }
 

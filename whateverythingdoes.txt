@@ -14,6 +14,13 @@ printAutoComplete :- this takes the current pointer from the root node to the ne
 
 AutoCorrect - Corrects a misspelled word that has been entered in the query space (Not Implemented)
 
+<<<<<<< Updated upstream
 searchTrieNode :- Searches for a specific word in the trie (Properly Implemented)
 
 deleteTrieNode :- Deletes a specific word in the trie (Properly Implemented)
+=======
+searchTrieNode :- searches the trie node with a specified query string (Properly Implemented)
+
+deleteTrieNode :- deletes an entire word from the Trie such that it is longer found when using displayTrie and suggestWord functions (Properly Implemented)
+
+>>>>>>> Stashed changes

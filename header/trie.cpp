@@ -1,5 +1,6 @@
 #include "trie.h"
 #include<iostream>
+#include<algorithm>
 
 
 TrieNode* createTrieNode(char key)
@@ -19,6 +20,17 @@ TrieNode* createTrieNode(char key)
     return newnode;
 }
 
+bool checkIfFreqArrayIsEmpty(TrieNode* currentNode)
+{
+    for(int i = 0 ; i < 5 ; i++)
+    {
+        if(currentNode->highestFreqNode[i] != NULL)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
 
 void insertTrieNode(TrieNode* root, std::string word)
 {
@@ -32,10 +44,27 @@ void insertTrieNode(TrieNode* root, std::string word)
             currentNode->childNode[key-'a'] = newnode;
         }
         currentNode = currentNode->childNode[key-'a'];
-        currentNode->freq += 1;
+        currentNode->freq += 1;        
     }
     currentNode->isWordEnd = true;
 
+<<<<<<< Updated upstream
+=======
+    currentNode = root;
+
+    int tempFreq[26];
+    for(auto key : word)
+    {
+        for(int i = 0; i < ALPHABET_SIZE; i++)
+        {
+            tempFreq[i] = currentNode->childNode[i]->freq;
+        }
+        std::sort(tempFreq, tempFreq + ALPHABET_SIZE);
+        currentNode = currentNode->childNode[key-'a'];
+        
+    }
+
+>>>>>>> Stashed changes
 }
 
 void deleteTrieNode(TrieNode *root, std::string word)
@@ -85,7 +114,6 @@ bool searchUtil(TrieNode* root,std::string word)
     if(root->childNode[index] != NULL)
     {
         child = root->childNode[index];
-
     }
     else
     {
@@ -146,6 +174,10 @@ void suggestWord(TrieNode* root, std::string prefix)
 
 int printAutoComplete(TrieNode* root, std::string query)
 {
+    if(query == "")
+    {
+        std::cout << "Please enter a query" << std::endl;
+    }
     TrieNode* currentNode = root;
     for(auto c : query)
     {

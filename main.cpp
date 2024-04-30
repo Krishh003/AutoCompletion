@@ -53,7 +53,12 @@ int main(){
 =======
     transform(query.begin(),query.end(),query.begin(), ::tolower);
 
+<<<<<<< Updated upstream
     deleteTrieNode(root,query);
+=======
+    printAutoComplete(root, query);
+    
+>>>>>>> Stashed changes
     
 >>>>>>> Stashed changes
     return 0;

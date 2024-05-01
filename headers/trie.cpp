@@ -21,6 +21,58 @@ TrieNode* createTrieNode(char key)
     return newnode;
 }
 
+void findTopFive(TrieNode* currentNode) 
+{
+    if(currentNode == NULL) 
+    {
+      return;
+    }
+    for(int i = 0; i < 26; ++i) 
+    {
+        if(currentNode->childNode[i] != NULL) 
+        {
+            findTopFive(currentNode->childNode[i]);
+            for (int i = 0; i < 5; ++i) 
+            {
+                if(currentNode->childNode[i] != NULL)
+                {
+                    if(currentNode->highestFreqNode[i] == NULL || currentNode->childNode[i]->freq > currentNode->highestFreqNode[i]->freq) 
+                    {
+                        for(int j = 4; j > i; --j) 
+                        {
+                            currentNode->highestFreqNode[j] = currentNode->highestFreqNode[j - 1];
+                        }
+                        currentNode->highestFreqNode[i] = currentNode;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void printNode(TrieNode* currentNode, int i)
+{
+    if(currentNode == NULL)
+    {
+        return;
+    }
+    std::cout << i << " .Value : " << currentNode->key << " and frequency : " << currentNode->freq << std::endl;
+}
+
+void findTopFiveForAllNodes(TrieNode* root) 
+{
+    if(root == NULL) 
+    {
+        return;
+    }
+    findTopFive(root);
+
+    for(int i = 0; i < 26; ++i) 
+    {
+        findTopFiveForAllNodes(root->childNode[i]);
+    }
+}
 
 void insertTrieNode(TrieNode* root, std::string word)
 {
@@ -37,6 +89,7 @@ void insertTrieNode(TrieNode* root, std::string word)
         currentNode->freq += 1;
     }
     currentNode->isWordEnd = true;
+    findTopFiveForAllNodes(currentNode);
 }
 
 void deleteTrieNode(TrieNode *root, std::string word)

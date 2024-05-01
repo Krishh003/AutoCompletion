@@ -1,39 +1,68 @@
 #include "trie.h"
 #include "reader.h"
-#include<iostream>
-#include<algorithm>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 #include <unordered_map>
 
-TrieNode* createTrieNode(char key)
+TrieNode *createTrieNode(char key)
 {
-    TrieNode* newnode = new TrieNode;
+    TrieNode *newnode = new TrieNode;
     newnode->key = key;
     newnode->freq = 1;
     newnode->isWordEnd = false;
-    for(int i = 0; i < ALPHABET_SIZE; i++)
+    for (int i = 0; i < ALPHABET_SIZE; i++)
     {
         newnode->childNode[i] = NULL;
     }
-    for(int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)
     {
-        newnode->highestFreqNode[i] = NULL;
+        newnode->highestFreqNode[i] = -1;
     }
     return newnode;
 }
 
-
-void insertTrieNode(TrieNode* root, std::string word)
+void insertTrieNode(TrieNode *root, std::string word)
 {
-    TrieNode* currentNode = root;
+    TrieNode *currentNode = root;
 
-    for(auto key : word) //This is equivalent to for k in word where k is an auto data type (in our case auto to char)
+    for (auto key : word) // This is equivalent to for k in word where k is an auto data type (in our case auto to char)
     {
-        if(currentNode->childNode[key-'a'] == NULL) //if the child is NULL
+        if (currentNode->childNode[key - 'a'] == NULL) // if the child is NULL
         {
-            TrieNode* newnode = createTrieNode(key);
-            currentNode->childNode[key-'a'] = newnode;
+            TrieNode *newnode = createTrieNode(key);
+            currentNode->childNode[key - 'a'] = newnode;
         }
-        currentNode = currentNode->childNode[key-'a'];
+        int m = -1, m2 = -1, m3 = -1, m4 = -1, m5 = -1;
+        for (int i = 0; i < 26; i++)
+        {
+            if (currentNode->childNode[i])
+            {
+                m = std::max(m, (currentNode->childNode[i]->freq));
+                if (currentNode->childNode[i]->freq < m)
+                {
+                    m2 = std::max(currentNode->childNode[i]->freq, m2);
+                }
+                if (currentNode->childNode[i]->freq < m2)
+                {
+                    m3 = std::max(currentNode->childNode[i]->freq, m3);
+                }
+                if (currentNode->childNode[i]->freq < m3)
+                {
+                    m4 = std::max(currentNode->childNode[i]->freq, m4);
+                }
+                if (currentNode->childNode[i]->freq < m4)
+                {
+                    m5 = std::max(currentNode->childNode[i]->freq, m5);
+                }
+            }
+        }
+        currentNode->highestFreqNode[0] = m;
+        currentNode->highestFreqNode[1] = m2;
+        currentNode->highestFreqNode[2] = m3;
+        currentNode->highestFreqNode[3] = m4;
+        currentNode->highestFreqNode[4] = m5;
+        currentNode = currentNode->childNode[key - 'a'];
         currentNode->freq += 1;
     }
     currentNode->isWordEnd = true;
@@ -41,15 +70,15 @@ void insertTrieNode(TrieNode* root, std::string word)
 
 void deleteTrieNode(TrieNode *root, std::string word)
 {
-    if(word.length() == 0)
+    if (word.length() == 0)
     {
         root->isWordEnd = false;
         return;
     }
-    int index = word[0]-'a';
+    int index = word[0] - 'a';
 
-    TrieNode* child;
-    if(root->childNode[index] != NULL)
+    TrieNode *child;
+    if (root->childNode[index] != NULL)
     {
         child = root->childNode[index];
     }
@@ -58,13 +87,13 @@ void deleteTrieNode(TrieNode *root, std::string word)
         std::cout << "No such word exists" << std::endl;
         return;
     }
-    deleteTrieNode(child,word.substr(1));
+    deleteTrieNode(child, word.substr(1));
 }
 
-void searchTrieNode(TrieNode* root, std::string word)
+void searchTrieNode(TrieNode *root, std::string word)
 {
-    bool ans = searchUtil(root,word);
-    if(ans)
+    bool ans = searchUtil(root, word);
+    if (ans)
     {
         std::cout << "Word exists in the Trie" << std::endl;
     }
@@ -74,53 +103,52 @@ void searchTrieNode(TrieNode* root, std::string word)
     }
 }
 
-bool searchUtil(TrieNode* root,std::string word)
+bool searchUtil(TrieNode *root, std::string word)
 {
-    if(word.length() == 0)
+    if (word.length() == 0)
     {
         return root->isWordEnd;
     }
-    int index = word[0]-'a';
+    int index = word[0] - 'a';
 
-    TrieNode* child;
-    if(root->childNode[index] != NULL)
+    TrieNode *child;
+    if (root->childNode[index] != NULL)
     {
         child = root->childNode[index];
-
     }
     else
     {
         return false;
     }
-    return searchUtil(child,word.substr(1));
+    return searchUtil(child, word.substr(1));
 }
 
-void displayTrie(TrieNode* root, std::string prefix) 
+void displayTrie(TrieNode *root, std::string prefix)
 {
-    if (root == nullptr) 
+    if (root == nullptr)
     {
         return;
     }
-    if (root->isWordEnd) 
+    if (root->isWordEnd)
     {
         std::cout << prefix << std::endl;
     }
-    for (int i = 0; i < 26; ++i) 
+    for (int i = 0; i < 26; ++i)
     {
-        if (root->childNode[i] != nullptr) 
+        if (root->childNode[i] != nullptr)
         {
             displayTrie(root->childNode[i], prefix + char('a' + i));
         }
     }
 }
 
-void displayQueryTrie(TrieNode* root, std::string query, std::string prefix)
+void displayQueryTrie(TrieNode *root, std::string query, std::string prefix)
 {
-    TrieNode* currentNode = root;
-    for(auto c : query)
+    TrieNode *currentNode = root;
+    for (auto c : query)
     {
         int index = c - 'a';
-        if(!currentNode->childNode[index])
+        if (!currentNode->childNode[index])
         {
             return;
         }
@@ -129,50 +157,66 @@ void displayQueryTrie(TrieNode* root, std::string query, std::string prefix)
     displayTrie(currentNode, query + prefix);
 }
 
-void suggestWord(TrieNode* root, std::string prefix,std::unordered_map<std::string,std::string>&hmap)
+void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::string, std::string> &hmap,std::vector<std::string>&ans)
 {
+    if(ans.size()==5)
+        return;
     if (root->isWordEnd)
     {
-        std::cout << prefix;
-        std::string emoji=get_emoji(prefix,hmap);
-        if(emoji!=""){
-            std::cout<<emoji<<std::endl;
-        }
-        else{
-            std::cout<<std::endl;
-        }
+        std::string emoji = get_emoji(prefix, hmap);
+        ans.push_back(prefix + emoji);
+
     }
-    for (int i = 0; i < ALPHABET_SIZE; i++)
+
+    int m = -1, m2 = -1;
+    int index = -1, index2 = -1;
+    for (int i = 0; i < 26; i++)
     {
-        if(root->childNode[i]) 
+        if (root->childNode[i])
         {
-            char child = 'a' + i;
-            suggestWord(root->childNode[i], prefix + child,hmap);
+            if (m < root->childNode[i]->freq)
+            {
+                m = root->childNode[i]->freq;
+                index = i;
+            }
         }
     }
+        for (int i = 0; i < 26; i++)
+        {
+            if (root->childNode[i])
+            {
+                if (m != root->childNode[i]->freq && m2 < root->childNode[i]->freq)
+                {
+                    m2 = root->childNode[i]->freq;
+                    index2 = i;
+                }
+            }
+        }
+        
+        char child = 'a' + index;
+        if(index!=-1)
+        suggestWord(root->childNode[index], prefix + child, hmap, ans);
+        child = 'a' + index2;
+        if (ans.size() == 5)
+            return;
+        if (index2 != -1)
+            suggestWord(root->childNode[index2], prefix + child, hmap, ans);
+        return;
 }
 
-int printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::string,std::string>&hmap)
+void printAutoComplete(TrieNode *root, std::string query, std::unordered_map<std::string, std::string> &hmap)
 {
     transform(query.begin(), query.end(), query.begin(), ::tolower);
-
-    TrieNode* currentNode = root;
-    for(auto c : query)
+    int t = 5;
+    TrieNode *currentNode = root;
+    for (auto c : query)
     {
         int index = c - 'a';
-        if(!currentNode->childNode[index])
-        {
-            return 0;
-        }
         currentNode = currentNode->childNode[index];
     }
-
-    if(currentNode->isWordEnd == true)
-    {
-        std::cout << query << std::endl;
-        return -1;
+    std::vector<std::string> ans;
+    suggestWord(currentNode, query, hmap,ans);
+    for(auto x:ans){
+        std::cout << x << std::endl;
     }
-
-    suggestWord(currentNode, query,hmap);
-    return 1;
 }

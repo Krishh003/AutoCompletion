@@ -1,11 +1,12 @@
 #include "headers/reader.h"
 #include "headers/trie.h"
 #include <iostream>
+#include<Windows.h>
 #include <unordered_map>
 using namespace std;
 
 int main() {
-
+  SetConsoleOutputCP(CP_UTF8);
   // creating the root of the trie
   TrieNode *root = createTrieNode('#');
   unordered_map<string, string> hmap;

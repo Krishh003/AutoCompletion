@@ -21,5 +21,8 @@ void displayQueryTrie(TrieNode* root, std::string query, std::string prefix);
 void deleteTrieNode(TrieNode* root, std::string word);
 void searchTrieNode(TrieNode* root, std::string word);
 bool searchUtil(TrieNode* root,std::string word);
+void printNode(TrieNode* currentNode);
+void findTopFiveForAllNodes(TrieNode* root);
+void findTopFive(TrieNode* currentNode);
 
 #endif

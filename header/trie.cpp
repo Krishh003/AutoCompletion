@@ -20,6 +20,7 @@ TrieNode* createTrieNode(char key)
     return newnode;
 }
 
+<<<<<<< Updated upstream:header/trie.cpp
 bool checkIfFreqArrayIsEmpty(TrieNode* currentNode)
 {
     for(int i = 0 ; i < 5 ; i++)
@@ -30,12 +31,22 @@ bool checkIfFreqArrayIsEmpty(TrieNode* currentNode)
         }
     }
     return 0;
+=======
+void printNode(TrieNode* currentNode)
+{
+    if(currentNode == NULL)
+    {
+        return;
+    }
+    std::cout << "Value : " << currentNode->key << " and frequency : " << currentNode->freq << std::endl;
+>>>>>>> Stashed changes:headers/trie.cpp
 }
 
 void insertTrieNode(TrieNode* root, std::string word)
 {
-    TrieNode* currentNode = root;
 
+    TrieNode* currentNode = root;
+    std::transform(word.begin(), word.end(), word.begin(), ::tolower);
     for(auto key : word) //This is equivalent to for k in word where k is an auto data type (in our case auto to char)
     {
         if(currentNode->childNode[key-'a'] == NULL) //if the child is NULL
@@ -47,6 +58,7 @@ void insertTrieNode(TrieNode* root, std::string word)
         currentNode->freq += 1;        
     }
     currentNode->isWordEnd = true;
+<<<<<<< Updated upstream:header/trie.cpp
 
 <<<<<<< Updated upstream
 =======
@@ -65,13 +77,62 @@ void insertTrieNode(TrieNode* root, std::string word)
     }
 
 >>>>>>> Stashed changes
+=======
+    findTopFiveForAllNodes(root);
+}
+
+void findTopFive(TrieNode* currentNode) 
+{
+    if(currentNode == NULL) 
+    {
+      return;
+    }
+    for(int i = 0; i < 26; ++i) 
+    {
+        if(currentNode->childNode[i] != NULL) 
+        {
+            findTopFive(currentNode->childNode[i]);
+            for (int i = 0; i < 5; ++i) 
+            {
+                if(currentNode->childNode[i] != NULL)
+                {
+                    if(currentNode->highestFreqNode[i] == NULL || currentNode->childNode[i]->freq > currentNode->highestFreqNode[i]->freq) 
+                    {
+                        for(int j = 4; j > i; --j) 
+                        {
+                            currentNode->highestFreqNode[j] = currentNode->highestFreqNode[j - 1];
+                        }
+                        currentNode->highestFreqNode[i] = currentNode;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void findTopFiveForAllNodes(TrieNode* root) 
+{
+    if(root == NULL) 
+    {
+        return;
+    }
+    findTopFive(root);
+
+    for(int i = 0; i < 26; ++i) 
+    {
+        findTopFiveForAllNodes(root->childNode[i]);
+    }
+>>>>>>> Stashed changes:headers/trie.cpp
 }
 
 void deleteTrieNode(TrieNode *root, std::string word)
 {
+    std::transform(word.begin(), word.end(), word.begin(), ::tolower);
     if(word.length() == 0)
     {
         root->isWordEnd = false;
+        findTopFiveForAllNodes(root);
         return;
     }
     int index = word[0]-'a';
@@ -91,6 +152,7 @@ void deleteTrieNode(TrieNode *root, std::string word)
 
 void searchTrieNode(TrieNode* root, std::string word)
 {
+    std::transform(word.begin(), word.end(), word.begin(), ::tolower);
     bool ans = searchUtil(root,word);
     if(ans)
     {
@@ -144,6 +206,7 @@ void displayTrie(TrieNode* root, std::string prefix)
 void displayQueryTrie(TrieNode* root, std::string query, std::string prefix)
 {
     TrieNode* currentNode = root;
+    std::transform(query.begin(), query.end(), query.begin(), ::tolower);
     for(auto c : query)
     {
         int index = c - 'a';
@@ -160,7 +223,20 @@ void suggestWord(TrieNode* root, std::string prefix)
 {
     if (root->isWordEnd)
     {
+<<<<<<< Updated upstream:header/trie.cpp
         std::cout << prefix << std::endl;
+=======
+        std::cout << prefix;
+        std::string emoji=get_emoji(prefix,hmap);
+        if(emoji != "")
+        {
+            std::cout<<emoji<<std::endl;
+        }
+        else
+        {
+            std::cout<<std::endl;
+        }
+>>>>>>> Stashed changes:headers/trie.cpp
     }
     for (int i = 0; i < ALPHABET_SIZE; i++)
     {

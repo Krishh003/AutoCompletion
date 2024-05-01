@@ -205,7 +205,7 @@ void suggestWord(TrieNode* root, std::string prefix,std::unordered_map<std::stri
     }
 }
 
-int printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::string,std::string>&hmap)
+void printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::string,std::string>&hmap)
 {
     transform(query.begin(), query.end(), query.begin(), ::tolower);
 
@@ -213,19 +213,11 @@ int printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::
     for(auto c : query)
     {
         int index = c - 'a';
-        if(!currentNode->childNode[index])
-        {
-            return 0;
-        }
         currentNode = currentNode->childNode[index];
     }
-
     if(currentNode->isWordEnd == true)
     {
         std::cout << query << std::endl;
-        return -1;
     }
-
     suggestWord(currentNode, query,hmap);
-    return 1;
 }

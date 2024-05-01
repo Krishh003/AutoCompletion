@@ -15,10 +15,6 @@ TrieNode *createTrieNode(char key)
     {
         newnode->childNode[i] = NULL;
     }
-    for (int i = 0; i < 5; i++)
-    {
-        newnode->highestFreqNode[i] = -1;
-    }
     return newnode;
 }
 
@@ -33,35 +29,6 @@ void insertTrieNode(TrieNode *root, std::string word)
             TrieNode *newnode = createTrieNode(key);
             currentNode->childNode[key - 'a'] = newnode;
         }
-        int m = -1, m2 = -1, m3 = -1, m4 = -1, m5 = -1;
-        for (int i = 0; i < 26; i++)
-        {
-            if (currentNode->childNode[i])
-            {
-                m = std::max(m, (currentNode->childNode[i]->freq));
-                if (currentNode->childNode[i]->freq < m)
-                {
-                    m2 = std::max(currentNode->childNode[i]->freq, m2);
-                }
-                if (currentNode->childNode[i]->freq < m2)
-                {
-                    m3 = std::max(currentNode->childNode[i]->freq, m3);
-                }
-                if (currentNode->childNode[i]->freq < m3)
-                {
-                    m4 = std::max(currentNode->childNode[i]->freq, m4);
-                }
-                if (currentNode->childNode[i]->freq < m4)
-                {
-                    m5 = std::max(currentNode->childNode[i]->freq, m5);
-                }
-            }
-        }
-        currentNode->highestFreqNode[0] = m;
-        currentNode->highestFreqNode[1] = m2;
-        currentNode->highestFreqNode[2] = m3;
-        currentNode->highestFreqNode[3] = m4;
-        currentNode->highestFreqNode[4] = m5;
         currentNode = currentNode->childNode[key - 'a'];
         currentNode->freq += 1;
     }
@@ -157,15 +124,14 @@ void displayQueryTrie(TrieNode *root, std::string query, std::string prefix)
     displayTrie(currentNode, query + prefix);
 }
 
-void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::string, std::string> &hmap,std::vector<std::string>&ans)
+void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::string, std::string> &hmap, std::vector<std::string> &ans)
 {
-    if(ans.size()==5)
+    if (ans.size() == 5)
         return;
     if (root->isWordEnd)
     {
         std::string emoji = get_emoji(prefix, hmap);
         ans.push_back(prefix + emoji);
-
     }
 
     int m = -1, m2 = -1;
@@ -181,27 +147,27 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
             }
         }
     }
-        for (int i = 0; i < 26; i++)
+    for (int i = 0; i < 26; i++)
+    {
+        if (root->childNode[i])
         {
-            if (root->childNode[i])
+            if (m != root->childNode[i]->freq && m2 < root->childNode[i]->freq)
             {
-                if (m != root->childNode[i]->freq && m2 < root->childNode[i]->freq)
-                {
-                    m2 = root->childNode[i]->freq;
-                    index2 = i;
-                }
+                m2 = root->childNode[i]->freq;
+                index2 = i;
             }
         }
-        
-        char child = 'a' + index;
-        if(index!=-1)
+    }
+
+    char child = 'a' + index;
+    if (index != -1)
         suggestWord(root->childNode[index], prefix + child, hmap, ans);
-        child = 'a' + index2;
-        if (ans.size() == 5)
-            return;
-        if (index2 != -1)
-            suggestWord(root->childNode[index2], prefix + child, hmap, ans);
+    child = 'a' + index2;
+    if (ans.size() == 5)
         return;
+    if (index2 != -1)
+        suggestWord(root->childNode[index2], prefix + child, hmap, ans);
+    return;
 }
 
 void printAutoComplete(TrieNode *root, std::string query, std::unordered_map<std::string, std::string> &hmap)
@@ -214,9 +180,15 @@ void printAutoComplete(TrieNode *root, std::string query, std::unordered_map<std
         int index = c - 'a';
         currentNode = currentNode->childNode[index];
     }
-    std::vector<std::string> ans;
-    suggestWord(currentNode, query, hmap,ans);
-    for(auto x:ans){
-        std::cout << x << std::endl;
+    std::vector<std::string>  ans;
+    suggestWord(currentNode, query, hmap, ans);
+    if (ans.size() == 0)
+        std::cout << "Could not complete the word\n";
+    else
+    {
+        for (auto x : ans)
+        {
+            std::cout << x << std::endl;
+        }
     }
 }

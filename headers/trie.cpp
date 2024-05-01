@@ -152,6 +152,17 @@ void suggestWord(TrieNode* root, std::string prefix,std::unordered_map<std::stri
     }
 }
 
+// int getFrequency(TrieNode* root, std::string prefix) {
+//   TrieNode* currentNode = root;
+//   for (auto key : word) {
+//     if (currentNode->childNode[key - 'a'] == NULL) {
+//       return 0;
+//     }
+//     currentNode = currentNode->childNode[key - 'a'];
+//   }
+//   return currentNode->freq;
+// }
+
 int printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::string,std::string>&hmap)
 {
     transform(query.begin(), query.end(), query.begin(), ::tolower);

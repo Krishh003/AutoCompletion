@@ -61,6 +61,7 @@ void deleteTrieNode(TrieNode *root, std::string word)
 
 void searchTrieNode(TrieNode *root, std::string word)
 {
+    transform(word.begin(),word.end(),word.begin(), ::tolower);
     bool ans = searchUtil(root, word);
     if (ans)
     {

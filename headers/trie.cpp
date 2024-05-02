@@ -134,8 +134,8 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
         ans.push_back(prefix + emoji);
     }
 
-    int m = -1, m2 = -1;
-    int index = -1, index2 = -1;
+    int m = -1, m2 = -1,m3=-1;
+    int index = -1, index2 = -1,index3=-1;
     for(int i = 0; i < 26; i++)
     {
         if(root->childNode[i])
@@ -158,8 +158,15 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
             }
         }
     }
-
-    char child = 'a' + index;
+    for (int i = 0; i < 26;i++){
+        if(root->childNode[i]){
+            if(m!=root->childNode[i]->freq && m2!=root->childNode[i]->freq && m3<root->childNode[i]->freq){
+                m3 = root->childNode[i]->freq;
+                index3 = i;
+            }
+        }
+    }
+        char child = 'a' + index;
     if (index != -1)
         suggestWord(root->childNode[index], prefix + child, hmap, ans);
     child = 'a' + index2;
@@ -167,6 +174,11 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
         return;
     if (index2 != -1)
         suggestWord(root->childNode[index2], prefix + child, hmap, ans);
+    if(ans.size()==5)
+        return;
+    child = 'a' + index3;
+    if(index3!=-1)
+        suggestWord(root->childNode[index3], prefix + child, hmap, ans);
     return;
 }
 

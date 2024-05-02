@@ -22,7 +22,7 @@ void insertTrieNode(TrieNode *root, std::string word)
 {
     TrieNode *currentNode = root;
 
-    for (auto key : word) // This is equivalent to for k in word where k is an auto data type (in our case auto to char)
+    for (char key : word) // This is equivalent to for k in word where k is an auto data type (in our case auto to char)
     {
         if (currentNode->childNode[key - 'a'] == NULL) // if the child is NULL
         {
@@ -126,9 +126,9 @@ void displayQueryTrie(TrieNode *root, std::string query, std::string prefix)
 
 void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::string, std::string> &hmap, std::vector<std::string> &ans)
 {
-    if (ans.size() == 5)
+    if(ans.size() == 5)
         return;
-    if (root->isWordEnd)
+    if(root->isWordEnd)
     {
         std::string emoji = get_emoji(prefix, hmap);
         ans.push_back(prefix + emoji);
@@ -136,9 +136,9 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
 
     int m = -1, m2 = -1;
     int index = -1, index2 = -1;
-    for (int i = 0; i < 26; i++)
+    for(int i = 0; i < 26; i++)
     {
-        if (root->childNode[i])
+        if(root->childNode[i])
         {
             if (m < root->childNode[i]->freq)
             {
@@ -147,9 +147,9 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
             }
         }
     }
-    for (int i = 0; i < 26; i++)
+    for(int i = 0; i < 26; i++)
     {
-        if (root->childNode[i])
+        if(root->childNode[i])
         {
             if (m != root->childNode[i]->freq && m2 < root->childNode[i]->freq)
             {
@@ -193,12 +193,13 @@ void printAutoComplete(TrieNode *root, std::string query, std::unordered_map<std
     }
 }
 
-void autocorrect(TrieNode *root, std::string word, std::string prefix)
-{int count=0;
+void autoCorrect(TrieNode *root, std::string word, std::string prefix)
+{
+    int count=0;
     TrieNode*temp;
-    bool ans = searchthemismatch(root, word,temp,count);
+    bool ans = searchIsMatch(root, word,temp,count);
     
-     if(ans)
+    if(ans)
     {
         std::cout << word << std::endl;
     }
@@ -206,29 +207,24 @@ void autocorrect(TrieNode *root, std::string word, std::string prefix)
     {
         int i;
         std::string correct;
-        for( i=0;i<26;i++)
-        {
-            if(temp->childNode[i]!=NULL&&temp->childNode[i]->key==word[count+1])
-                word[count-1]=temp->childNode[i]->key;
-        }
         correct = word.substr(0,count-1);
     
         displayTrie(temp,correct+prefix);
-
     }
 }
 
-bool searchthemismatch(TrieNode *root, std::string word,TrieNode *&temp,int &count)
+bool searchIsMatch(TrieNode *root, std::string word,TrieNode *&tempNode,int &count)
 {
 
     if (word.length() == 0)
     {
         return root->isWordEnd;
     }
-    temp=root;
+    tempNode = root;
     int index = word[0] - 'a';
     count++;
     TrieNode *child;
+
     if (root->childNode[index] != NULL)
     {
         child = root->childNode[index];
@@ -237,60 +233,5 @@ bool searchthemismatch(TrieNode *root, std::string word,TrieNode *&temp,int &cou
     {
         return false;
     }
-    return searchthemismatch(child, word.substr(1),temp,count);
-}
-
-void printSuggestions(TrieNode* root, std::string res)
-{
- 
-    // If current character is
-    // the last character of a string
-    if (root->isWordEnd == true) {
- 
-        std::cout << res << " ";
-    }
- 
-    // Iterate over all possible
-    // characters of the string
-    for (int i = 0; i < 26; i++) {
- 
-        // If current character
-        // present in the Trie
-        if (root->childNode[i] != NULL) {
- 
-            // Insert current character
-            // into Trie
-            res.push_back(i);
-            printSuggestions(root->childNode[i], res);
-            res.pop_back();
-        }
-    }
-}
- 
-// Function to check if the string
-// is present in Trie or not
-bool checkPresent(TrieNode* root, std::string key)
-{
-    // Traverse the string
-    for (int i = 0; i < key.length(); i++) {
- 
-        // If current character not
-        // present in the Trie
-        if (root->childNode[key[i]] == NULL) {
- 
-            printSuggestions(root, key.substr(0, i));
- 
-            return false;
-        }
- 
-        // Update root
-        root = root->childNode[key[i]];
-    }
-    if (root->isWordEnd == true) {
- 
-        return true;
-    }
-    printSuggestions(root, key);
- 
-    return false;
+    return searchIsMatch(child, word.substr(1),tempNode,count);
 }

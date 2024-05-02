@@ -21,9 +21,8 @@ void displayQueryTrie(TrieNode* root, std::string query, std::string prefix);
 void deleteTrieNode(TrieNode* root, std::string word);
 void searchTrieNode(TrieNode* root, std::string word);
 bool searchUtil(TrieNode* root,std::string word);
-void autocorrect(TrieNode *root, std::string word,std::string prefix);
-bool searchthemismatch(TrieNode *root, std::string word,TrieNode *&temp,int &count);
-void printSuggestions(TrieNode* root, std::string res);
-bool checkPresent(TrieNode* root, std::string key);
+void autoCorrect(TrieNode *root, std::string word,std::string prefix);
+bool searchIsMatch(TrieNode *root, std::string word,TrieNode *&temp,int &count);
+
 
 #endif

@@ -22,11 +22,14 @@ int main()
     if(success && check) 
     {
         cout << endl << endl;
+
         cout << "\t\t\t© A&A Company 2024\t\t\t" << endl << endl;
         cout << "\tThe AutoComplete and AutoCorrect Program\t\t" << endl;
+
         while(true) 
         {   
             cout << endl  << endl;
+
             cout<<"********************************************************\n";
             cout << "\t\t\tMain Menu\t\t\t" << endl;
             cout << "1. Auto Complete" << endl;
@@ -34,14 +37,18 @@ int main()
             cout << "3. Additional Functionalities" << endl;
             cout << "4. Exit" << endl << endl;
             cout<<"********************************************************\n";
+
             cout << "Enter your choice: ";
             cin >> strchoice;
-            if(strchoice.length() > 1 || strchoice[0] >= 97 && strchoice[0] <= 123)
+
+            if(strchoice.length() > 1 || (strchoice[0] <= 49 || strchoice[0] >= 57))
             {
                 cout << "Invalid Input. Please try with valid input." << endl;
                 continue;
             }
+            cout<<strchoice<<endl;
             choice = stoi(strchoice);
+            
             if(choice < 1 || choice > 4)
             {
                 cout << "Enter valid input!!\n";
@@ -49,6 +56,7 @@ int main()
             }
             
             cout << endl << endl;
+            
             switch(choice) 
             {
                 case 1:
@@ -99,7 +107,7 @@ int main()
                         cout << "7. Exit Program" << endl;
                         cout << "Enter your choice: ";
                         cin >> stradditionalChoice;
-                        if(stradditionalChoice.length() > 1 || stradditionalChoice[0] >= 97 && stradditionalChoice[0] <= 123)
+                        if(stradditionalChoice.length() > 1 || (stradditionalChoice[0] <= 49 || stradditionalChoice[0] >= 57))
                         {
                             cout << "Invalid Input. Please try again with valid input" << endl;
                             continue;
@@ -152,9 +160,12 @@ int main()
                                             break;
                                         }
                                     }
-                                    if (isValidInput) {
+                                    if (isValidInput) 
+                                    {
                                         deleteTrieNode(root, word);
-                                    } else {
+                                    } 
+                                    else
+                                    {
                                         cout << "Invalid input! Please enter a word containing only alphabets." << endl;
                                     }
                                 }
@@ -202,7 +213,7 @@ int main()
                             case 6:
                             {
                                 cout << "Returning to main menu.." << endl;
-                                break; // Return to Main Menu
+                                break;
                             }
                             case 7:
                             {

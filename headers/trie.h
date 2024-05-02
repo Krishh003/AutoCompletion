@@ -15,7 +15,7 @@ struct TrieNode{
 TrieNode* createTrieNode(char key);
 void insertTrieNode(TrieNode*root, std::string word);  
 void displayTrie(TrieNode* root, std::string prefix);
-void suggestWord(TrieNode* root, std::string prefix,std::unordered_map<std::string,std::string>&hmap,std::vector<std::string>&ans);
+void suggestWord(TrieNode* root, std::string prefix,std::unordered_map<std::string,std::string>&hmap,std::vector<std::string>&ans,int ctr);
 void printAutoComplete(TrieNode* root, std::string query,std::unordered_map<std::string,std::string>&hmap);
 void displayQueryTrie(TrieNode* root, std::string query, std::string prefix);
 void deleteTrieNode(TrieNode* root, std::string word);

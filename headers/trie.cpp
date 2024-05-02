@@ -22,9 +22,9 @@ void insertTrieNode(TrieNode *root, std::string word)
 {
     TrieNode *currentNode = root;
 
-    for (char key : word) // This is equivalent to for k in word where k is an auto data type (in our case auto to char)
+    for (char key : word)
     {
-        if (currentNode->childNode[key - 'a'] == NULL) // if the child is NULL
+        if (currentNode->childNode[key - 'a'] == NULL)
         {
             TrieNode *newnode = createTrieNode(key);
             currentNode->childNode[key - 'a'] = newnode;
@@ -124,8 +124,9 @@ void displayQueryTrie(TrieNode *root, std::string query, std::string prefix)
     displayTrie(currentNode, query + prefix);
 }
 
-void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::string, std::string> &hmap, std::vector<std::string> &ans)
+void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::string, std::string> &hmap, std::vector<std::string> &ans,int ctr)
 {
+    if(ctr==0) return;
     if(ans.size() == 5)
         return;
     if(root->isWordEnd)
@@ -168,32 +169,41 @@ void suggestWord(TrieNode *root, std::string prefix, std::unordered_map<std::str
     }
         char child = 'a' + index;
     if (index != -1)
-        suggestWord(root->childNode[index], prefix + child, hmap, ans);
+        suggestWord(root->childNode[index], prefix + child, hmap, ans,ctr-1);
     child = 'a' + index2;
     if (ans.size() == 5)
         return;
     if (index2 != -1)
-        suggestWord(root->childNode[index2], prefix + child, hmap, ans);
+        suggestWord(root->childNode[index2], prefix + child, hmap, ans,ctr-1);
     if(ans.size()==5)
         return;
     child = 'a' + index3;
     if(index3!=-1)
-        suggestWord(root->childNode[index3], prefix + child, hmap, ans);
+        suggestWord(root->childNode[index3], prefix + child, hmap, ans,ctr-1);
     return;
 }
 
 void printAutoComplete(TrieNode *root, std::string query, std::unordered_map<std::string, std::string> &hmap)
 {
     transform(query.begin(), query.end(), query.begin(), ::tolower);
-    int t = 5;
+
     TrieNode *currentNode = root;
     for (auto c : query)
     {
+       
         int index = c - 'a';
-        currentNode = currentNode->childNode[index];
+        if(currentNode->childNode[index] != NULL)
+        {
+            currentNode = currentNode->childNode[index];
+        }
+        else
+        {
+            std::cout << "Could not complete the word\n" << std::endl;
+            return;
+        }
     }
     std::vector<std::string>  ans;
-    suggestWord(currentNode, query, hmap, ans);
+    suggestWord(currentNode, query, hmap, ans,40);
     if (ans.size() == 0)
         std::cout << "Could not complete the word\n";
     else

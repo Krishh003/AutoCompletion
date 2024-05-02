@@ -39,13 +39,13 @@ int main()
                 cout << "Invalid Input. Please try with valid input." << endl;
                 continue;
             }
-            choice = stoi(strchoice);
             cout << choice << endl;
             if(choice < 1 || choice > 4)
             {
                 cout << "Enter valid input!!\n";
                 continue;
             }
+            choice = stoi(strchoice);
             cout << endl << endl;
             switch(choice) 
             {
@@ -102,13 +102,14 @@ int main()
                             cout << "Invalid Input. Please try again with valid input" << endl;
                             continue;
                         }
-                        additionalChoice = stoi(stradditionalChoice);
+                        
 
                         if(additionalChoice < 1 || additionalChoice > 7)
                         {
                             cout << "Enter valid input!!\n";
                             return 1;
                         }
+                        additionalChoice = stoi(stradditionalChoice);
 
                         switch(additionalChoice) 
                         {

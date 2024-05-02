@@ -66,7 +66,7 @@ void searchTrieNode(TrieNode *root, std::string word)
     }
     else
     {
-        std::cout << "Word does not exists" << std::endl;
+        std::cout << "Word does not exist" << std::endl;
     }
 }
 

@@ -41,12 +41,11 @@ int main()
             cout << "Enter your choice: ";
             cin >> strchoice;
 
-            if(strchoice.length() > 1 || (strchoice[0] <= 49 || strchoice[0] >= 57))
+            if(strchoice.length() > 1 || (strchoice[0] < 49 || strchoice[0] >= 57))
             {
                 cout << "Invalid Input. Please try with valid input." << endl;
                 continue;
             }
-            cout<<strchoice<<endl;
             choice = stoi(strchoice);
             
             if(choice < 1 || choice > 4)
@@ -107,7 +106,7 @@ int main()
                         cout << "7. Exit Program" << endl;
                         cout << "Enter your choice: ";
                         cin >> stradditionalChoice;
-                        if(stradditionalChoice.length() > 1 || (stradditionalChoice[0] <= 49 || stradditionalChoice[0] >= 57))
+                        if(stradditionalChoice.length() > 1 || (stradditionalChoice[0] < 49 || stradditionalChoice[0] >= 57))
                         {
                             cout << "Invalid Input. Please try again with valid input" << endl;
                             continue;

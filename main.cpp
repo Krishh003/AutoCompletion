@@ -36,18 +36,19 @@ int main()
             cout<<"********************************************************\n";
             cout << "Enter your choice: ";
             cin >> strchoice;
-            if(strchoice.length() > 1)
+            if(strchoice.length() > 1 || strchoice[0] >= 97 && strchoice[0] <= 123)
             {
                 cout << "Invalid Input. Please try with valid input." << endl;
                 continue;
             }
+            choice = stoi(strchoice);
             cout << choice << endl;
             if(choice < 1 || choice > 4)
             {
                 cout << "Enter valid input!!\n";
                 continue;
             }
-            choice = stoi(strchoice);
+            
             cout << endl << endl;
             switch(choice) 
             {
@@ -99,19 +100,19 @@ int main()
                         cout << "7. Exit Program" << endl;
                         cout << "Enter your choice: ";
                         cin >> stradditionalChoice;
-                        if(stradditionalChoice.length() > 1)
+                        if(stradditionalChoice.length() > 1 || stradditionalChoice[0] >= 97 && stradditionalChoice[0] <= 123)
                         {
                             cout << "Invalid Input. Please try again with valid input" << endl;
                             continue;
                         }
-                        
+                        additionalChoice = stoi(stradditionalChoice);
 
-                        if(additionalChoice < 1 || additionalChoice > 7)
+                        if(additionalChoice < 1 || additionalChoice > 7 )
                         {
                             cout << "Enter valid input!!\n";
                             return 1;
                         }
-                        additionalChoice = stoi(stradditionalChoice);
+                        
 
                         switch(additionalChoice) 
                         {

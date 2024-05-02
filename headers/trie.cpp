@@ -38,6 +38,7 @@ void insertTrieNode(TrieNode *root, std::string word)
 
 void deleteTrieNode(TrieNode *root, std::string word)
 {
+    transform(word.begin(),word.end(),word.begin(), ::tolower);
     if (word.length() == 0)
     {
         root->isWordEnd = false;

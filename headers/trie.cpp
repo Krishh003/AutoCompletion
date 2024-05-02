@@ -192,3 +192,105 @@ void printAutoComplete(TrieNode *root, std::string query, std::unordered_map<std
         }
     }
 }
+
+void autocorrect(TrieNode *root, std::string word, std::string prefix)
+{int count=0;
+    TrieNode*temp;
+    bool ans = searchthemismatch(root, word,temp,count);
+    
+     if(ans)
+    {
+        std::cout << word << std::endl;
+    }
+    else
+    {
+        int i;
+        std::string correct;
+        for( i=0;i<26;i++)
+        {
+            if(temp->childNode[i]!=NULL&&temp->childNode[i]->key==word[count+1])
+                word[count-1]=temp->childNode[i]->key;
+        }
+        correct = word.substr(0,count-1);
+    
+        displayTrie(temp,correct+prefix);
+
+    }
+}
+
+bool searchthemismatch(TrieNode *root, std::string word,TrieNode *&temp,int &count)
+{
+
+    if (word.length() == 0)
+    {
+        return root->isWordEnd;
+    }
+    temp=root;
+    int index = word[0] - 'a';
+    count++;
+    TrieNode *child;
+    if (root->childNode[index] != NULL)
+    {
+        child = root->childNode[index];
+    }
+    else
+    {
+        return false;
+    }
+    return searchthemismatch(child, word.substr(1),temp,count);
+}
+
+void printSuggestions(TrieNode* root, std::string res)
+{
+ 
+    // If current character is
+    // the last character of a string
+    if (root->isWordEnd == true) {
+ 
+        std::cout << res << " ";
+    }
+ 
+    // Iterate over all possible
+    // characters of the string
+    for (int i = 0; i < 26; i++) {
+ 
+        // If current character
+        // present in the Trie
+        if (root->childNode[i] != NULL) {
+ 
+            // Insert current character
+            // into Trie
+            res.push_back(i);
+            printSuggestions(root->childNode[i], res);
+            res.pop_back();
+        }
+    }
+}
+ 
+// Function to check if the string
+// is present in Trie or not
+bool checkPresent(TrieNode* root, std::string key)
+{
+    // Traverse the string
+    for (int i = 0; i < key.length(); i++) {
+ 
+        // If current character not
+        // present in the Trie
+        if (root->childNode[key[i]] == NULL) {
+ 
+            printSuggestions(root, key.substr(0, i));
+ 
+            return false;
+        }
+ 
+        // Update root
+        root = root->childNode[key[i]];
+    }
+    if (root->isWordEnd == true) {
+ 
+        return true;
+    }
+    printSuggestions(root, key);
+ 
+    return false;
+}

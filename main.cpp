@@ -16,36 +16,57 @@ int main()
     bool success = setup_trie(root);
     bool check = setup_emoji(hmap);
 
-    if (success && check) {
-        while (true) {
+    if (success && check) 
+    {
+        while (true) 
+        {
     std::cout << "Main Menu:" << std::endl;
     std::cout << "1. Auto Complete" << std::endl;
-    std::cout << "2. Additional Functionalities" << std::endl;
-    std::cout << "3. Exit" << std::endl;
+    std::cout << "2. Auto Correct" << std::endl;
+    std::cout << "3. Additional Functionalities" << std::endl;
+    std::cout << "4. Exit" << std::endl;
     std::cout << "Enter your choice: ";
     std::cin >> choice;
 
-    switch (choice) {
+    switch (choice) 
+    {
         case 1:
+        {
             std::cout << "Enter the prefix for autocomplete: ";
             std::cin >> word;
             {
                 bool isValidInput = true;
-                for (char c : word) {
-                    if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))) {
+                for (char c : word) 
+                {
+                    if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))) 
+                    {
                         isValidInput = false;
                         break;
                     }
                 }
-                if (isValidInput) {
+                if (isValidInput) 
+                {
                      printAutoComplete(root, word,hmap);
-                } else {
+                } 
+                else 
+                {
                     std::cout << "Invalid input! Please enter a word containing only alphabets." << std::endl;
                 }
             }
             break;
+        }
         case 2:
-            while(true) {
+        {
+            std::string query;
+            cout << "Enter query: " ;
+            cin >> query;
+            std::string prefix = "";
+            autocorrect(root,query,prefix);
+        }
+        case 3:
+        {
+            while(true) 
+            {
                 std::cout << "Additional Functionalities:" << std::endl;
                 std::cout << "1. Insert a word" << std::endl;
                 std::cout << "2. Delete a word" << std::endl;
@@ -56,21 +77,27 @@ int main()
                 std::cout << "Enter your choice: ";
                 std::cin >> choice;
 
-                switch (choice) {
+                switch (choice) 
+                {
                     case 1:
                         std::cout << "Enter the word to insert: ";
                         std::cin >> word;
                         {
                             bool isValidInput = true;
-                            for (char c : word) {
-                                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))) {
+                            for (char c : word) 
+                            {
+                                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))) 
+                                {
                                     isValidInput = false;
                                     break;
                                 }
                             }
-                            if (isValidInput) {
+                            if (isValidInput) 
+                            {
                                 insertTrieNode(root, word);
-                            } else {
+                            } 
+                            else 
+                            {
                                 std::cout << "Invalid input! Please enter a word containing only alphabets." << std::endl;
                             }
                         }
@@ -126,16 +153,21 @@ int main()
                 if (choice == 5) break;
             }
             break;
-        case 3:
+        }
+        case 4:
+        {
             std::cout << "Exiting program..." << std::endl;
             return 0;
+        }
         default:
             std::cout << "Invalid choice. Please try again." << std::endl;
     }
 }
 
 
-    } else {
+    } 
+    else 
+    {
         cout << "internal error! cannot proceed\nexiting program...";
     }
 

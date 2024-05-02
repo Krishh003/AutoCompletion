@@ -12,7 +12,8 @@ bool setup_trie(TrieNode *root) {
     return false;
   }
   std::string word = "";
-  while (reader >> word) {
+  while (reader >> word) 
+  {
     insertTrieNode(root, word); // insert into trie
   }
   reader.close();

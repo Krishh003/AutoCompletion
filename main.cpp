@@ -40,7 +40,6 @@ int main()
                 continue;
             }
             choice = stoi(strchoice);
-            cout << choice << endl;
             if(choice < 1 || choice > 4)
             {
                 cout << "Enter valid input!!\n";

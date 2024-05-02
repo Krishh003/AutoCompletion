@@ -21,6 +21,7 @@ TrieNode *createTrieNode(char key)
 void insertTrieNode(TrieNode *root, std::string word)
 {
     TrieNode *currentNode = root;
+    transform(word.begin(),word.end(),word.begin(), ::tolower);
 
     for (char key : word)
     {
